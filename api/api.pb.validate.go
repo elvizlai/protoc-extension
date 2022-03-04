@@ -187,6 +187,35 @@ func (m *ResourceDescriptor) validate(all bool) error {
 		}
 	}
 
+	if all {
+		switch v := interface{}(m.GetOut()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ResourceDescriptorValidationError{
+					field:  "Out",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ResourceDescriptorValidationError{
+					field:  "Out",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOut()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ResourceDescriptorValidationError{
+				field:  "Out",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return ResourceDescriptorMultiError(errors)
 	}
@@ -417,6 +446,35 @@ func (m *ResourceDescriptor_Out) validate(all bool) error {
 	}
 
 	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetLogMask()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ResourceDescriptor_OutValidationError{
+					field:  "LogMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ResourceDescriptor_OutValidationError{
+					field:  "LogMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLogMask()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ResourceDescriptor_OutValidationError{
+				field:  "LogMask",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return ResourceDescriptor_OutMultiError(errors)
