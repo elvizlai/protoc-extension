@@ -39,6 +39,11 @@ message ResourceDescriptor {
     google.protobuf.FieldMask log_mask = 1;
   }
 
-  In  in  = 1;
-  Out out = 2;
+  message AuditLog {
+    string name = 1;
+  }
+
+  In       in    = 1;
+  Out      out   = 2;
+  AuditLog audit = 3;
 }

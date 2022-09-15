@@ -9,7 +9,6 @@ do
     protoc -I=include -I=. --experimental_allow_proto3_optional \
 		--go_out=$DST_DIR --go_opt=$xxm,paths=source_relative \
 		--go-grpc_out=$DST_DIR --go-grpc_opt=$xxm,paths=source_relative \
-		--validate_out="lang=go:$DST_DIR"  --validate_opt=$xxm,paths=source_relative \
 		`find "${pkg}" -maxdepth 1 -name '*.proto'` || ret=$?
 done
 
